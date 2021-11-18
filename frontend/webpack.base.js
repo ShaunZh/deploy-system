@@ -3,7 +3,7 @@
  * @Author: Hexon
  * @Date: 2021-08-23 18:44:17
  * @LastEditors: Hexon
- * @LastEditTime: 2021-11-18 23:21:03
+ * @LastEditTime: 2021-11-18 23:54:55
  */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const svgToMiniDataURI = require('mini-svg-data-uri');
@@ -36,7 +36,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.css', '.less', '.json'],
   },
   module: {
-    noParse: /jquery|lodash/,
+    // noParse: //,
     rules: [
       {
         test: /\.(js|ts)x?$/,
