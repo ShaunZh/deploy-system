@@ -3,15 +3,13 @@
  * @Author: Hexon
  * @Date: 2021-08-30 10:00:50
  * @LastEditors: Hexon
- * @LastEditTime: 2021-11-18 23:53:34
+ * @LastEditTime: 2021-11-20 16:13:50
  */
 import React from 'react';
-import Layout from '@/components/Layout/Base';
-
 
 export default function Home(): React.ReactElement {
   return (
-    <Layout></Layout>
+    <div>home</div>
   );
 }
 
