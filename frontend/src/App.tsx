@@ -7,12 +7,12 @@ import { Spin } from 'antd';
 
 export default function App(): React.ReactElement {
   return (
-    <Suspense fallback={<Spin />} >
-      <Router>
-        <Layout>
+    <Router>
+      <Layout>
+        <Suspense fallback={<Spin />} >
           <RouteConfig></RouteConfig>
-        </Layout>
-      </Router>
-    </Suspense>
+        </Suspense>
+      </Layout>
+    </Router>
   );
 }
