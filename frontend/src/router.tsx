@@ -3,7 +3,7 @@
  * @Author: Hexon
  * @Date: 2021-11-19 23:38:47
  * @LastEditors: Hexon
- * @LastEditTime: 2021-11-20 17:20:00
+ * @LastEditTime: 2021-11-21 23:36:25
  */
 
 import React from 'react';
@@ -18,6 +18,7 @@ import Counter from '@/pages/Counter';
 
 const PipelineAll = React.lazy(() => import('@/pages/Pipeline/All'));
 const PipelineMy = React.lazy(() => import('@/pages/Pipeline/My'));
+const PipelineNew = React.lazy(() => import('@/pages/Pipeline/New'));
 
 
 const routes: RouteProps[] = [
@@ -35,6 +36,11 @@ const routes: RouteProps[] = [
     path: '/pipeline/my',
     exact: true,
     component: PipelineMy
+  },
+  {
+    path: '/pipeline/new',
+    exact: true,
+    component: PipelineNew
   },
   {
     path: '/Counter',
