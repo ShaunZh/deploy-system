@@ -3,14 +3,15 @@
  * @Author: Hexon
  * @Date: 2021-11-20 15:45:22
  * @LastEditors: Hexon
- * @LastEditTime: 2021-11-21 23:45:52
+ * @LastEditTime: 2021-11-24 22:51:01
  */
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Table, Space, Tag, Popover, Row, Col } from 'antd';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import { ColumnsType } from 'antd/es/table';
 import SearchInput from '@/components/SearchInput';
 import { PlusOutlined } from '@ant-design/icons';
+import PipelineTemplateModal from '@/components/PipelineTemplateModal';
 // import history from '@/libs/history';
 
 
@@ -30,7 +31,8 @@ export default function Pipeline(props: Props): React.ReactElement {
   const { type } = props;
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const history = useHistory();
+  const [visiblePipelineTemplateModal, setVisiblePipelineTemplateModal] = useState(false);
+  // const history = useHistory();
 
   const data = [
     {
@@ -147,12 +149,16 @@ export default function Pipeline(props: Props): React.ReactElement {
 
   const handleCreate = () => {
     console.log('handleCreate');
-    history.push('/pipeline/new');
+    setVisiblePipelineTemplateModal(true);
   };
 
   const rowSelection = {
     selectedRowKeys,
     onChange: handleSelectChange,
+  };
+
+  const handleCancelPipelinTemplateModal = () => {
+    setVisiblePipelineTemplateModal(false);
   };
 
   useEffect(() => {
@@ -173,6 +179,9 @@ export default function Pipeline(props: Props): React.ReactElement {
         </Row>
       </div>
       <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+      {
+        visiblePipelineTemplateModal && <PipelineTemplateModal onCancel={handleCancelPipelinTemplateModal}></PipelineTemplateModal>
+      }
     </div>
   );
 }
