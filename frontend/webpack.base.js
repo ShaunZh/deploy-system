@@ -3,7 +3,7 @@
  * @Author: Hexon
  * @Date: 2021-08-23 18:44:17
  * @LastEditors: Hexon
- * @LastEditTime: 2021-11-18 23:54:55
+ * @LastEditTime: 2021-11-24 22:37:24
  */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const svgToMiniDataURI = require('mini-svg-data-uri');
@@ -100,6 +100,16 @@ module.exports = {
       {
         test: /\.(svg)(\?.*)?$/,
         use: [
+          {
+            loader: 'babel-loader',
+          },
+          {
+            loader: '@svgr/webpack',
+            options: {
+              babel: false,
+              icon: true,
+            },
+          },
           {
             loader: 'url-loader',
             options: {
