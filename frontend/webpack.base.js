@@ -3,7 +3,7 @@
  * @Author: Hexon
  * @Date: 2021-08-23 18:44:17
  * @LastEditors: Hexon
- * @LastEditTime: 2021-11-27 22:33:23
+ * @LastEditTime: 2021-11-28 22:36:13
  */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const svgToMiniDataURI = require('mini-svg-data-uri');
@@ -167,7 +167,7 @@ module.exports = {
     }),
 
     new Webpack.ProgressPlugin(),
-    Webpack.DefinePlugin({
+    new Webpack.DefinePlugin({
       BASE_URL: 'http://daily-api.com',
     }),
   ],
