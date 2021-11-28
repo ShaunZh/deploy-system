@@ -3,14 +3,17 @@
  * @Author: Hexon
  * @Date: 2021-11-24 22:25:21
  * @LastEditors: Hexon
- * @LastEditTime: 2021-11-25 00:23:47
+ * @LastEditTime: 2021-11-28 20:19:26
  */
 import React, { useState } from 'react';
-import { Modal, Row, Col, Menu } from 'antd';
+import { Modal, Row, Col, Menu, message } from 'antd';
 import Icon from '@ant-design/icons';
 import { ReactComponent as NodejsSvg } from '@/assets/images/nodejs.svg';
 import { ReactComponent as JavaSvg } from '@/assets/images/java.svg';
 import TemplateConfig from './TemplateConfig';
+import { useHistory } from 'react-router-dom';
+
+// import Fetch from '@/services/pipeline';
 
 import './index.less';
 
@@ -40,7 +43,9 @@ const configs = new Map<string, PipelineConfig[]>([
 ]);
 
 export default function PipelineTemplateModal(props: Props): React.ReactElement {
+  const history = useHistory();
   const [currentType, setCurrentType] = useState('');
+  const [currentTemplate, setCurrentTemplate] = useState<PipelineConfig | null>();
 
   const { onCancel } = props;
 
@@ -50,21 +55,37 @@ export default function PipelineTemplateModal(props: Props): React.ReactElement 
   const handleSelectTemplate = (id: string) => {
     const typeConfig = configs.get(currentType);
     const templateConfig = typeConfig?.find(c => c.id === id);
+    setCurrentTemplate(templateConfig);
     console.log('templateConfig', templateConfig);
+  };
+
+  // 获取流水线模板列表
+  // const fetchPipelineTemplatesList = () => {
+  //   Fetch.pipeline_template_list().then(res => {
+  //   })
+  // }
+
+  const onOk = () => {
+    if (currentTemplate?.id) {
+      history.push('/pipeline/edit?id=' + currentTemplate.id);
+      return;
+    }
+    message.info('请选择模板');
   };
   return (
     <Modal title="选择流水线模板"
       visible
       onCancel={onCancel}
+      onOk={onOk}
     >
       <Row>
         <Col span={6} className="left template">
           <Menu>
-            <Menu.Item className="item" onClick={() => handleSelectType('Node.js')}>
+            <Menu.Item className="item" key='Node.js' onClick={() => handleSelectType('Node.js')}>
               <Icon component={NodejsSvg}></Icon>
               <span>Node.js</span>
             </Menu.Item>
-            <Menu.Item className="item" onClick={() => handleSelectType('Java')}>
+            <Menu.Item className="item" key="Java" onClick={() => handleSelectType('Java')}>
               <Icon component={JavaSvg}></Icon>
               <span>Java</span>
             </Menu.Item>
