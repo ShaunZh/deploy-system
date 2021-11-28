@@ -3,7 +3,7 @@
  * @Author: Hexon
  * @Date: 2021-08-30 15:35:42
  * @LastEditors: Hexon
- * @LastEditTime: 2021-08-30 19:48:20
+ * @LastEditTime: 2021-11-28 22:34:29
  */
 
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
     semi: 'off',
     '@typescript-eslint/semi': ['error'],
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': ['error'],
+    '@typescript-eslint/no-unused-vars': 'off', // ['error'],
     quotes: ['error', 'single'],
   },
   settings: {
