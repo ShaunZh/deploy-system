@@ -3,7 +3,7 @@
  * @Author: Hexon
  * @Date: 2021-11-24 22:40:33
  * @LastEditors: Hexon
- * @LastEditTime: 2021-11-24 22:40:34
+ * @LastEditTime: 2021-11-30 21:52:58
  */
 declare module '*.svg' {
   import React = require('react');

@@ -3,21 +3,33 @@
  * @Author: Hexon
  * @Date: 2021-11-28 20:23:49
  * @LastEditors: Hexon
- * @LastEditTime: 2021-11-28 22:46:47
+ * @LastEditTime: 2021-11-29 22:44:08
  */
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import { Row, Col, Button } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import BaseInfo from './BaseInfo';
 
+import PipelineFetch from '@/services/pipeline';
+import { getUrlParam } from '@/utils/tool';
+
 
 interface Props {
   title: string;
+  env: string;
 }
 
+interface Pipeline 
+
+const initState = async () => {
+  const id = getUrlParam('id') as string;
+  const data = await PipelineFetch.pipeline_detail({ id });
+};
+
 export default function Edit(props: Props): React.ReactElement {
+  const [state, dispatch] = useReducer();
   const { title } = props;
   const history = useHistory();
   const [currentTab, setCurrentTab] = useState('process');
@@ -59,7 +71,7 @@ export default function Edit(props: Props): React.ReactElement {
             <LeftOutlined />
             <span className="ml-16">返回</span>
           </Button>
-          <span className="title pl-16">{title}</span>
+          <span className="pl-16 title">{title}</span>
         </Col>
         <Col className="center" flex="1 1 auto" span={16}>
           <Button type={tabButtonType('base')} className={tabClass('base')} onClick={() => onChangeTab('base')}>基本信息</Button>
