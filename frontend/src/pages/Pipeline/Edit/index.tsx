@@ -2,10 +2,10 @@
  * @Description:
  * @Author: Hexon
  * @Date: 2021-11-28 20:23:49
- * @LastEditors: Hexon
- * @LastEditTime: 2021-11-29 22:44:08
+ * @LastEditors: Zhang jie
+ * @LastEditTime: 2021-12-03 09:44:56
  */
-import React, { useReducer, useState } from 'react';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { Row, Col, Button } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom';
@@ -17,20 +17,43 @@ import { getUrlParam } from '@/utils/tool';
 
 
 interface Props {
-  title: string;
-  env: string;
+  type: 'edit' | 'create';
+  pipelineName: string;
 }
 
-interface Pipeline 
+interface Action {
+  type: 'update',
+  payload: PipelineDetail
+}
 
-const initState = async () => {
-  const id = getUrlParam('id') as string;
-  const data = await PipelineFetch.pipeline_detail({ id });
+
+
+
+const reducer = (state: Partial<PipelineDetail>, action: Action) => {
+  switch (action.type) {
+    case 'update': return {
+      ...state,
+      ...action.payload
+    };
+  }
+};
+
+const initState = {
+  name: '', // 流水线名称
+  env: '', // 部署环境
+  tag: '', // 标签
+  members: [], // 流水线成员
+  codeSouce: {
+    address: '',
+    branch: ''
+  }, // 代码源
+  stageConfigs: []// 流水线流程配置
 };
 
 export default function Edit(props: Props): React.ReactElement {
-  const [state, dispatch] = useReducer();
-  const { title } = props;
+  const [state, dispatch] = useReducer(reducer, initState);
+  const [loading, setLoading] = useState(false);
+  const { pipelineName } = props;
   const history = useHistory();
   const [currentTab, setCurrentTab] = useState('process');
 
@@ -56,12 +79,31 @@ export default function Edit(props: Props): React.ReactElement {
     currentTab === type ? 'link' : 'text'
   );
 
+  const fetchPipeline = useCallback(async () => {
+    setLoading(true);
+    const id = getUrlParam('id') as string;
+    const { data, success } = await PipelineFetch.pipeline_detail({ id });
+    if (success) {
+      dispatch({
+        type: 'update',
+        payload: { ...data }
+      });
+    }
+
+  }, []);
+
+  useEffect(() => {
+    fetchPipeline();
+  }, [fetchPipeline]);
+
   const renderContent = () => {
     switch (currentTab) {
       case 'base': return <BaseInfo></BaseInfo>;
       case 'process': return <div>process</div>;
     }
   };
+
+
 
   return (
     <div className="page-pipeline-edit page">
@@ -71,7 +113,7 @@ export default function Edit(props: Props): React.ReactElement {
             <LeftOutlined />
             <span className="ml-16">返回</span>
           </Button>
-          <span className="pl-16 title">{title}</span>
+          <span className="pl-16 title">{pipelineName}</span>
         </Col>
         <Col className="center" flex="1 1 auto" span={16}>
           <Button type={tabButtonType('base')} className={tabClass('base')} onClick={() => onChangeTab('base')}>基本信息</Button>
